@@ -19,31 +19,44 @@ import java.util.List;
 @RequestScoped
 public class Contacto implements Serializable {
 
+    private static List<String> sexes;
+    private static List<String> groupList;
     private int id;
     private String nombre;
-    private String apellidos;
+    private String descripcion;
+    private String sex;
     private Integer edad;
     private Date fechaNacimeto;
     private String direccion;
     private String telefono;
     private String email;
     private String url;
-    private static List<String> groupList;
     private List<String> groups;
+    private Boolean gamer;
+    private Boolean editable;
+    private String password;
 
     static {
         groupList = new ArrayList<>();
         groupList.add("Family");
         groupList.add("Friends");
-        groupList.add("Work");
+
+        sexes = new ArrayList<>();
+        sexes.add("H");
+        sexes.add("M");
+    }
+
+    public Contacto() {
+        editable = false;
+        groups = new ArrayList<>();
     }
 
     public List<String> getGroupList() {
         return groupList;
     }
 
-    public Contacto() {
-        groups = new ArrayList<>();
+    public List<String> getSexes() {
+        return sexes;
     }
 
     public void addContactoToAgenda() {
@@ -66,12 +79,12 @@ public class Contacto implements Serializable {
         this.nombre = nombre;
     }
 
-    public String getApellidos() {
-        return apellidos;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setApellidos(String apellidos) {
-        this.apellidos = apellidos;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public Integer getEdad() {
@@ -140,5 +153,37 @@ public class Contacto implements Serializable {
             }
         }
         return sb.toString();
+    }
+
+    public Boolean getEditable() {
+        return editable;
+    }
+
+    public void setEditable(Boolean editable) {
+        this.editable = editable;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public Boolean getGamer() {
+        return gamer;
+    }
+
+    public void setGamer(Boolean gamer) {
+        this.gamer = gamer;
     }
 }

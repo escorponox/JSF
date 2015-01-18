@@ -10,26 +10,41 @@
     <h:outputStylesheet name="./css/default.css"/>
     <h:outputStylesheet name="./css/cssLayout.css"/>
     <h:outputStylesheet name="./css/table-style.css"/>
+    <h:outputScript name="util.js" library="css"/>
     <title>#{i18n.titulo}</title>
 </h:head>
 
-<h:body>
+<h:body onload="untroll()">
 
     <div id="top">
-        <ui:insert name="top">#{i18n.top}</ui:insert>
+        <ui:insert name="top">
+            <h:graphicImage value="/img/trolldad.jpg" height="40" width="40"/>
+            <h:link value=" #{i18n.top}"/>
+            <h:button value="Click me!!" onclick="troll();"/>
+        </ui:insert>
     </div>
 
-        <div id="left">
-            <ui:insert name="left">
-                <ui:include src="contacto.xhtml"/>
-            </ui:insert>
-        </div>
-        <div id="content">
-            <ui:insert name="content">Content</ui:insert>
-        </div>
+    <div id="content">
+        <ui:insert name="content">Content</ui:insert>
+    </div>
+
+    <div id="left">
+        <ui:insert name="left">
+            <ui:include src="contacto.xhtml"/>
+        </ui:insert>
+    </div>
+
+    <div id="right">
+        <ui:insert name="top">
+            <h:graphicImage value="/img/trolldad.jpg" height="90%" width="90%"/>
+        </ui:insert>
+    </div>
 
     <div id="bottom">
-        <ui:insert name="bottom">#{i18n.bottom}</ui:insert>
+        <ui:insert name="bottom">
+            <h:outputText value=" #{i18n.bottom}"/>
+            <h:outputLink value="https://github.com/escorponox">GitHub</h:outputLink>
+        </ui:insert>
     </div>
 
 </h:body>

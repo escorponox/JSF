@@ -7,51 +7,120 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="content">
-        <h:dataTable value="#{dao.contactos}" var="o"
-                     styleClass="order-table"
-                     headerClass="order-table-header"
-                     rowClasses="order-table-odd-row,order-table-even-row"
-                >
-            <h:column>
-                <f:facet name="header">#{i18n.nombre}</f:facet>
-                <h:outputText value="#{o.nombre}"/>
-            </h:column>
-            <h:column>
-                <f:facet name="header">#{i18n.apellidos}</f:facet>
-                #{o.apellidos}
-            </h:column>
-            <h:column>
-                <f:facet name="header">#{i18n.edad}</f:facet>
-                #{o.edad}
-            </h:column>
-            <h:column>
-                <f:facet name="header">#{i18n.fechaNacimeto}</f:facet>
-                <h:outputText value="#{o.fechaNacimeto}">
-                    <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
-                </h:outputText>
-            </h:column>
-            <h:column>
-                <f:facet name="header">#{i18n.direccion}</f:facet>
-                #{o.direccion}
-            </h:column>
-            <h:column>
-                <f:facet name="header">#{i18n.telefono}</f:facet>
-                #{o.telefono}
-            </h:column>
-            <h:column>
-                <f:facet name="header">#{i18n.email}</f:facet>
-                #{o.email}
-            </h:column>
-            <h:column>
-                <f:facet name="header">#{i18n.url}</f:facet>
-                <h:outputLink value="#{o.url}">#{o.url}</h:outputLink>
-            </h:column>
-            <h:column>
-                <f:facet name="header">#{i18n.groups}</f:facet>
-                <h:outputText value="#{o.groupsString()}"/>
-            </h:column>
-        </h:dataTable>
+        <h:form id="table">
+            <h:dataTable value="#{dao.contactos}" var="o"
+                         styleClass="order-table"
+                         headerClass="order-table-header"
+                         rowClasses="order-table-odd-row,order-table-even-row">
+                <h:column>
+                    <f:facet name="header">#{i18n.nombre}</f:facet>
+                    <h:outputText value="#{o.nombre}" rendered="#{not o.editable}"/>
+                    <h:inputText value="#{o.nombre}" id="nombre" rendered="#{o.editable}">
+                        <f:validateRequired/>
+                    </h:inputText>
+                    <h:inputHidden value="#{o.id}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{i18n.descripcion}</f:facet>
+                    <h:outputText value="#{o.descripcion}" rendered="#{not o.editable}"/>
+                    <h:inputText value="#{o.descripcion}" rendered="#{o.editable}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{i18n.sex}</f:facet>
+                    <h:outputText value="#{i18n.H}" rendered="#{o.sex eq 'H' and not o.editable}"/>
+                    <h:outputText value="#{i18n.M}" rendered="#{o.sex eq 'M' and not o.editable}"/>
+                    <h:selectOneRadio value="#{o.sex}" id="sexo" rendered="#{o.editable}">
+                        <f:selectItem itemValue="#{o.sexes.get(0)}" itemLabel="#{i18n.H}"/>
+                        <f:selectItem itemValue="#{o.sexes.get(1)}" itemLabel="#{i18n.M}"/>
+                    </h:selectOneRadio>
+                </h:column>
 
+                <h:column>
+                    <f:facet name="header">#{i18n.edad}</f:facet>
+                    <h:outputText value="#{o.edad}" rendered="#{not o.editable}"/>
+                    <h:inputText value="#{o.edad}" id="edad" rendered="#{o.editable}">
+                        <f:convertNumber integerOnly="true" maxIntegerDigits="2" maxFractionDigits="0"/>
+                        <f:validateLongRange minimum="10" maximum="99"/>
+                    </h:inputText>
+                    <h:messages for="edad"/>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">#{i18n.fechaNacimeto}</f:facet>
+                    <h:outputText value="#{o.fechaNacimeto}" rendered="#{not o.editable}">
+                        <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                    </h:outputText>
+                    <h:inputText value="#{o.fechaNacimeto}" id="fecha" rendered="#{o.editable}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:inputText>
+                    <h:message for="fecha"/>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">#{i18n.direccion}</f:facet>
+                    <h:outputText value="#{o.direccion}" rendered="#{not o.editable}"/>
+                    <h:inputText value="#{o.direccion}" id="direccion" rendered="#{o.editable}"/>
+                    <h:message for="direccion"/>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">#{i18n.telefono}</f:facet>
+                    <h:outputText value="#{o.telefono}" rendered="#{not o.editable}"/>
+                    <h:inputText value="#{o.telefono}" id="telefono" rendered="#{o.editable}">
+                        <f:validateRegex pattern="^\d{3}-\d{3}-\d{3}$|^$"/>
+                    </h:inputText>
+                    <h:message for="telefono"/>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">#{i18n.email}</f:facet>
+                    <h:outputText value="#{o.email}" rendered="#{not o.editable}"/>
+                    <h:inputText value="#{o.email}" id="email" rendered="#{o.editable}"/>
+                    <h:message for="email"/>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">#{i18n.url}</f:facet>
+                    <h:outputLink value="#{o.url}" rendered="#{not o.editable}">#{o.url}</h:outputLink>
+                    <h:inputText value="#{o.url}" id="url" rendered="#{o.editable}"/>
+                    <h:message for="url"/>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">#{i18n.groups}</f:facet>
+                    <h:outputText value="#{o.groupsString()}" rendered="#{not o.editable}"/>
+                    <h:selectManyCheckbox value="#{o.groups}" id="grupos" rendered="#{o.editable}">
+                        <f:selectItems value="${o.groupList}"/>
+                    </h:selectManyCheckbox>
+                    <h:message for="grupos"/>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">#{i18n.gamer}</f:facet>
+                    <h:outputText value="#{i18n.gamer}" rendered="#{o.gamer and not o.editable}"/>
+                    <h:selectBooleanCheckbox value="#{o.gamer}" id="gamer" rendered="#{o.editable}"/>
+                    <h:message for="gamer"/>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Action</f:facet>
+                    <h:commandLink value="#{i18n.edit}"
+                                   action="#{dao.edit(o)}"
+                                   rendered="#{not o.editable}"/>
+                    <h:outputText value=" " rendered="#{not o.editable}"/>
+                    <h:commandLink value="#{i18n.delete}"
+                                   action="#{dao.deleteContact(o)}"
+                                   rendered="#{not o.editable}"/>
+                    <h:commandButton value="#{i18n.save}"
+                                     action="#{dao.save()}"
+                                     rendered="#{o.editable}"/>
+                </h:column>
+
+            </h:dataTable>
+        </h:form>
+        <h:panelGrid columns="1">
+            <h:messages/>
+        </h:panelGrid>
     </ui:define>
 
 </ui:composition>

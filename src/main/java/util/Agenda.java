@@ -21,7 +21,8 @@ public class Agenda {
         Contacto per = new Contacto();
         per.setId(0);
         per.setNombre("Nombre" + 0);
-        per.setApellidos("Apellidos" + 0);
+        per.setDescripcion("Apellidos" + 0);
+        per.setSex("H");
         per.setDireccion("aaa");
         per.setEdad(30);
         per.setFechaNacimeto(new Date());
@@ -32,6 +33,11 @@ public class Agenda {
 
     }
 
+    public static void addContacto(Contacto contacto) {
+        contacto.setId(contactos.size());
+        contactos.add(contacto);
+    }
+
     public List<Contacto> getContactos() {
         return contactos;
     }
@@ -40,9 +46,19 @@ public class Agenda {
         contactos = contactoList;
     }
 
-    public static void addContacto(Contacto contacto) {
-        contacto.setId(contactos.size());
-        contactos.add(contacto);
+    public void deleteContact(Contacto contacto) {
+        contactos.remove(contacto);
+    }
+
+    public void edit(Contacto contacto) {
+        contactos.get(contactos.indexOf(contacto)).setEditable(true);
+    }
+
+    public void save() {
+        for (Contacto contacto : contactos) {
+            contacto.setEditable(false);
+        }
+
     }
 
 }

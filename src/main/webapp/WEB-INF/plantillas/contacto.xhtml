@@ -8,26 +8,66 @@
 <h:outputText value="#{i18n.tituloNewForm}"/>
 <h:form id="addForm">
     <h:panelGrid columns="3" class="contacto">
+
         <h:outputLabel value="#{i18n.nombre}" for="nombre"/>
         <h:inputText value="#{contacto.nombre}" id="nombre">
             <f:validateRequired/>
         </h:inputText>
         <h:message for="nombre"/>
-        <h:outputLabel value="#{i18n.apellidos}" for="apellidos"/>
-        <h:inputText value="#{contacto.apellidos}" id="apellidos"/>
-        <h:message for="apellidos"/>
+
+        <h:outputLabel value="#{i18n.descripcion}" for="descripcion"/>
+        <h:inputTextarea value="#{contacto.descripcion}" id="descripcion"/>
+        <h:message for="descripcion"/>
+        <h:outputLabel value="#{i18n.sex}" for="descripcion"/>
+
+        <h:selectOneRadio value="#{contacto.sex}" id="sexo">
+            <f:selectItem itemValue="#{contacto.sexes.get(0)}" itemLabel="#{i18n.H}"/>
+            <f:selectItem itemValue="#{contacto.sexes.get(1)}" itemLabel="#{i18n.M}"/>
+        </h:selectOneRadio>
+        <h:message for="sexo"/>
+
         <h:outputLabel value="#{i18n.edad}" for="edad"/>
         <h:inputText value="#{contacto.edad}" id="edad">
             <f:convertNumber integerOnly="true" maxIntegerDigits="2" maxFractionDigits="0"/>
             <f:validateLongRange minimum="10" maximum="99"/>
         </h:inputText>
-        <h:message for="edad"/>
+        <h:messages for="edad"/>
+
+        <h:outputLabel value="#{i18n.fechaNacimeto}" for="fecha"/>
+        <h:inputText value="#{contacto.fechaNacimeto}" id="fecha">
+            <f:convertDateTime pattern="dd/MM/yyyy"/>
+        </h:inputText>
+        <h:message for="fecha"/>
+
+        <h:outputLabel value="#{i18n.direccion}" for="direccion"/>
+        <h:inputText value="#{contacto.direccion}" id="direccion"/>
+        <h:message for="direccion"/>
+
+        <h:outputLabel value="#{i18n.telefono}" for="telefono"/>
+        <h:inputText value="#{contacto.telefono}" id="telefono">
+            <f:validateRegex pattern="^\d{3}-\d{3}-\d{3}$|^$"/>
+        </h:inputText>
+        <h:message for="telefono"/>
+
+        <h:outputLabel value="#{i18n.email}" for="email"/>
+        <h:inputText value="#{contacto.email}" id="email"/>
+        <h:message for="email"/>
+
+        <h:outputLabel value="#{i18n.url}" for="url"/>
+        <h:inputText value="#{contacto.url}" id="url"/>
+        <h:message for="url"/>
+
         <h:outputLabel value="#{i18n.groups}" for="grupos"/>
         <h:selectManyCheckbox value="#{contacto.groups}" id="grupos">
             <f:selectItems value="${contacto.groupList}"/>
         </h:selectManyCheckbox>
+        <h:message for="grupos"/>
 
+        <h:outputLabel value="#{i18n.gamer}" for="gamer"/>
+        <h:selectBooleanCheckbox value="#{contacto.gamer}" id="gamer"/>
+        <h:message for="gamer"/>
     </h:panelGrid>
     <h:commandButton action="#{contacto.addContactoToAgenda()}" value="#{i18n.anadir}"/>
+
 </h:form>
 </html>
